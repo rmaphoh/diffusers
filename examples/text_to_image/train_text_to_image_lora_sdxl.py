@@ -1205,6 +1205,7 @@ def main(args):
                     
                     #20241001 save four checkpoints in the training
                     save_frequency = args.max_train_steps//4
+                    print('!!!!!!!!!!!!!!!! ', save_frequency)
                     if global_step % save_frequency == 0:
                     #if global_step % args.checkpointing_steps == 0:
                         # _before_ saving state, check if this save would set us over the `checkpoints_total_limit`
