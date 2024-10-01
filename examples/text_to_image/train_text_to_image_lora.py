@@ -207,7 +207,7 @@ def parse_args():
     parser.add_argument(
         "--num_validation_images",
         type=int,
-        default=4,
+        default=2,
         help="Number of images that should be generated during validation with `validation_prompt`.",
     )
     parser.add_argument(
@@ -869,7 +869,10 @@ def main():
                 accelerator.log({"train_loss": train_loss}, step=global_step)
                 train_loss = 0.0
 
-                if global_step % args.checkpointing_steps == 0:
+                #20241001 save four checkpoints in the training
+                save_frequency = args.max_train_steps//4
+                if global_step % save_frequency == 0:
+                #if global_step % args.checkpointing_steps == 0:
                     if accelerator.is_main_process:
                         # _before_ saving state, check if this save would set us over the `checkpoints_total_limit`
                         if args.checkpoints_total_limit is not None:
