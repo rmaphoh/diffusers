@@ -1200,6 +1200,7 @@ def main(args):
                 accelerator.log({"train_loss": train_loss}, step=global_step)
                 train_loss = 0.0
 
+                print('@@@@@@@@@@@@@@@@@@@@')
                 # DeepSpeed requires saving weights on every device; saving weights only on the main process would cause issues.
                 if accelerator.distributed_type == DistributedType.DEEPSPEED or accelerator.is_main_process:
                     
