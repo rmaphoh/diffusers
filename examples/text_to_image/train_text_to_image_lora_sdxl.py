@@ -255,7 +255,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--num_validation_images",
         type=int,
-        default=4,
+        default=2,
         help="Number of images that should be generated during validation with `validation_prompt`.",
     )
     parser.add_argument(
@@ -1202,7 +1202,11 @@ def main(args):
 
                 # DeepSpeed requires saving weights on every device; saving weights only on the main process would cause issues.
                 if accelerator.distributed_type == DistributedType.DEEPSPEED or accelerator.is_main_process:
-                    if global_step % args.checkpointing_steps == 0:
+                    
+                    #20241001 save four checkpoints in the training
+                    save_frequency = args.max_train_steps//4
+                    if global_step % save_frequency == 0:
+                    #if global_step % args.checkpointing_steps == 0:
                         # _before_ saving state, check if this save would set us over the `checkpoints_total_limit`
                         if args.checkpoints_total_limit is not None:
                             checkpoints = os.listdir(args.output_dir)
